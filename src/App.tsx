@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import users from "./users-mock.json";
+import Modal from "./components/Modal";
 
 import styled from "styled-components";
-import Modal from "./components/Modal";
-import users from "./users-mock.json";
 
 export type User = {
   id: number;
@@ -29,16 +29,7 @@ function App() {
     });
     setAllUsers(newArr);
   };
-  //   setAllUsers(
-  //     allUsers.map((user: User) => {
-  //       if (user.id === userId) {
-  //         return { ...user, active: nextSeen };
-  //       } else {
-  //         return user;
-  //       }
-  //     })
-  //   );
-  // };
+
   const handleName = (userId: number, newName: string) => {
     const newArr = allUsers.map((user: User) => {
       if (user.id === userId) {
@@ -49,6 +40,7 @@ function App() {
     });
     setAllUsers(newArr);
   };
+
   const handleEmail = (userId: number, newEmail: string) => {
     const newArr = allUsers.map((user: User) => {
       if (user.id === userId) {
@@ -60,22 +52,29 @@ function App() {
     setAllUsers(newArr);
   };
 
-  let foo = allUsers
+  let activeUser: string[] = allUsers
     .filter((user) => user.active === true)
     .map((newUser) => {
       return newUser.email;
     });
 
-  console.log(foo);
-
-  console.log(isModalOpen);
-
   return (
-    <Wrapper className="App">
-      <button onClick={handleToggleModal} className="btn-toggle">
-        Toggle Modal
-      </button>
-      <h1>{foo}</h1>
+    <Wrapper>
+      <nav className="nav">
+        <div className="nav-center">
+          <h2>User Status Dashboard</h2>
+          <button onClick={handleToggleModal} className="btn-toggle">
+            Show users
+          </button>
+        </div>
+      </nav>
+      <div className="section-center">
+        <h1>
+          {activeUser.length > 0
+            ? `Active user: ${activeUser} `
+            : "No active user"}
+        </h1>
+      </div>
       {isModalOpen ? (
         <Modal
           toggle={handleToggleModal}
@@ -84,8 +83,7 @@ function App() {
           toggleStatus={handleStatus}
           handleName={handleName}
           handleEmail={handleEmail}
-          // foo={foo}
-          // filteredUsers={filteredUsers}
+          activeUser={activeUser}
         />
       ) : null}
     </Wrapper>
@@ -93,17 +91,42 @@ function App() {
 }
 
 const Wrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+
+  .nav {
+    align-items: center;
+    display: flex;
+    height: fit-content;
+    padding: 20px 0;
+    width: 100%;
+    justify-content: center;
+    box-shadow: 1px 1px 10px grey;
+
+    .nav-center {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+    }
+  }
+
   .btn-toggle {
-    padding: 15px;
     background-color: #d80d30;
     color: white;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 
     :hover {
       background-color: #ad0a20;
     }
+  }
+
+  .section-center {
+    display: flex;
+    justify-content: center;
   }
 `;
 
