@@ -24,7 +24,7 @@ function App() {
       if (user.id === userId) {
         return { ...user, active: nextSeen };
       } else {
-        return user;
+        return { ...user, active: false };
       }
     });
     setAllUsers(newArr);
@@ -62,18 +62,18 @@ function App() {
     <Wrapper>
       <nav className="nav">
         <div className="nav-center">
-          <h2>User Status Dashboard</h2>
+          <span className="nav-title">Users Dashboard</span>
           <button onClick={handleToggleModal} className="btn-toggle">
-            Show users
+            <span className="btn-text">Show users</span>
           </button>
         </div>
       </nav>
       <div className="section-center">
-        <h1>
+        <h3>
           {activeUser.length > 0
             ? `Active user: ${activeUser} `
             : "No active user"}
-        </h1>
+        </h3>
       </div>
       {isModalOpen ? (
         <Modal
@@ -83,7 +83,6 @@ function App() {
           toggleStatus={handleStatus}
           handleName={handleName}
           handleEmail={handleEmail}
-          activeUser={activeUser}
         />
       ) : null}
     </Wrapper>
@@ -93,40 +92,66 @@ function App() {
 const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
 
-  .nav {
+  nav {
     align-items: center;
     display: flex;
     height: fit-content;
     padding: 20px 0;
     width: 100%;
     justify-content: center;
-    box-shadow: 1px 1px 10px grey;
+    box-shadow: 0 5px 5px 1px gray;
 
     .nav-center {
+      align-items: center;
       display: flex;
       justify-content: space-between;
       width: 90%;
+
+      .nav-title {
+        font-size: 20px;
+        font-weight: 400;
+        @media (min-width: 700px) {
+          font-size: 30px;
+        }
+      }
     }
   }
-
   .btn-toggle {
+    padding: 8px 10px;
     background-color: #d80d30;
     color: white;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
     :hover {
       background-color: #ad0a20;
     }
-  }
 
+    .btn-text {
+      font-size: 12px;
+    }
+
+    @media (min-width: 700px) {
+      font-size: 15px;
+    }
+  }
   .section-center {
+    width: 90%;
     display: flex;
     justify-content: center;
+
+    h3 {
+      font-size: 20px;
+
+      @media (min-width: 700px) {
+        font-size: 25px;
+      }
+    }
   }
 `;
 
