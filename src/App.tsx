@@ -12,7 +12,7 @@ export type User = {
 };
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [allUsers, setAllUsers] = useState<User[]>(users);
 
   const handleToggleModal = () => {
